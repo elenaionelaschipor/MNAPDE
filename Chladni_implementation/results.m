@@ -1,7 +1,6 @@
 clear
 close all
-load("finite_differences_results.mat")
-load("spectral_ritz_method_results_s6.mat")
+load("spectral_ritz_method_results_s6.mat")  % workspace ottenuto dopo spectral_ritz_method.m
 
 
 
@@ -22,37 +21,14 @@ for l = 1:(N+1)^2
     exportgraphics(gca, "ritz6/lambda" + replace(string(eigenvalues(l)),'.',',') + ".png", 'Resolution', 300);
 end
 
-% riordino i valori in base alle autofunzioni dominanti
-
-[valori_massimi, indici_colonna] = max(eigenvectors, [], 1);
-
-[~, nuovo_ordine] = sort(indici_colonna);
-eigenvector_ordinati = eigenvectors(:, nuovo_ordine);
-
-eigenvalues_ordinati = eigenvalues(nuovo_ordine,:);
-eigenfunctions_ordinati = eigenfunctions(nuovo_ordine,:);
 
 
-fig = figure();
-fig.Theme = "light";
-
-
-for l = 1:(N+1)^2
-    subplot(N+1,N+1,l)
-    fcontour(eigenfunctions_ordinati(l), [-1 1 -1 1], 'k-')
-    grid off 
-    % title(sprintf('Autofunzione relativa ad autovalore %f', eigenvalues(l)))
-    % colorbar
-    axis square 
-
-end
-
-
-
+% load("finite_differences_results.mat")  % workspace ottenuto dopo finite_differences.m
+ 
 % per finite differences ci servono
 % V
 % lambda
-% eventualmente la roba per riordinarli quindi p
+% eventualmente per riordinarli p
 
 % for i=4:M
 %     fig = figure();

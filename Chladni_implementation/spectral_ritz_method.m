@@ -18,7 +18,6 @@ function u_m = calcola_u(m,x, k_vals)
 
 if mod(m,2) == 0
     % m pari       
-    % soluzione (numerica) di f1 = 0      
     
     if m == 0
         u_m = 1/sqrt(2);
@@ -99,6 +98,7 @@ for m=0:N
                     
                     K_tilde(i,j) = integral2(integranda_num, -1,1,-1,1, "Vectorized",false);
                     %K_tilde(i,j) = int(int( integranda, x,-1,1), y, -1,1);
+                    %è piu veloce quella numerica
 
                 end
             end
@@ -113,18 +113,8 @@ K = (K_tilde+K_tilde')/2;
 eigenvalues = diag(D);
 
 eigenfunctions = sym(zeros(size(eigenvalues)));
-% 
-% for l = 1:N      % per ogni autovettore
-%     w_l = sym(0);
-%     for m = 0:s
-%         for n = 0:s
-%             k = m*(s+1) + n + 1;   % indice lineare per (m,n)
-%             w_l = w_l + eigenvectors(k,l)*ux(m+1)*uy(n+1);
-%         end
-%     end
-%     eigenfunctions(l) = w_l;
-% end
 
+% calcoliamo le autofunzioni
 for i = 1:(N+1)^2
     j = 0;
     eigenfunc = sym(0);
@@ -138,10 +128,3 @@ for i = 1:(N+1)^2
 end
 
 
-% 
-% close all
-% for l = 1:N
-%     figure()
-%     fcontour(eigenfunctions(l), [-1 1 -1 1])
-%     axis square 
-% end

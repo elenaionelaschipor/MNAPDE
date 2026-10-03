@@ -32,22 +32,21 @@ N(bbottom, bbottom) = N(bbottom, bbottom)/2;
 
 
 L([gleft;gright;gtop;gbottom],:) = 0;
-for j=gleft(1 :end-1)' % left boundary
+for j=gleft(1 :end-1)' % left
     L([j,j+1] , [j,j+1,j+2*n,j+2*n+1]) = L([j,j+1] , [j,j+1,j+2*n,j+2*n+1]) + (mu-1)/2*[1,-1,-1,1;-1, 1,1,-1] ;
 end
 
-for j=gright(1 :end-1)' % right boundary
+for j=gright(1 :end-1)' % right 
     L([j,j+1] , [j,j+1,j-2*n,j-2*n+1]) = L([j,j+1] , [j,j+1,j-2*n,j-2*n+1]) + (mu-1)/2*[1,-1,-1,1;-1, 1,1,-1] ;
 end
 
 
-
-for j=gtop(1 :end-1)' % top boundary
+for j=gtop(1 :end-1)' % top 
     L([j,j+n] , [j+n,j,j+n+2,j+2]) = L([j,j+n] , [j+n,j,j+n+2,j+2]) - (mu-1)/2*[1,-1,-1,1;-1, 1,1,-1] ;
 end
 
 
-for j=gbottom(1 :end-1)' % bottom boundary
+for j=gbottom(1 :end-1)' % bottom 
     L([j,j+n] , [j+n,j,j+n-2,j-2]) = L([j,j+n] , [j+n,j,j+n-2,j-2]) - (mu-1)/2*[1,-1,-1,1;-1, 1,1,-1] ;
 end
 
@@ -84,14 +83,14 @@ end
 % elimino ghost nodes
 
 phys = G(3:n,3:n); 
-phys = phys(:); % put all physical nodes in a vector
+phys = phys(:); % raggruppo punti fisici
 ghost = [gleft; gright; gtop; gbottom] ;
 A0 = A (phys, phys) - A (phys,ghost)/A (ghost , ghost )*A(ghost , phys);
 
 
 
 % RHS
-B= h^4*speye(n^2);
+B= h^4*speye(n^2); 
 B(bleft, bleft) = B(bleft,bleft)/2;
 B(bright, bright) = B(bright,bright)/2;
 B(btop,btop) = B(btop,btop)/2;

@@ -12,7 +12,6 @@ h_ideale = pi/(10*k); %così evito di non beccare le oscillazioni che sono legat
 q_quadratura = ceil(3*k); % idem
 
 
-% Ns = find_ideal_mesh(V_collection, h_ideale);
 [Nodes, Midpoints, Hj, Dirs] = create_nodes(V_collection, h_ideale);
 
 d = [0.5,sqrt(3)/2];
@@ -29,8 +28,7 @@ onda_incidente = plane_wave;
 tempi_galerkin_triangolo = zeros(10,1);
 tempi_collocazione_triangolo = tempi_galerkin_triangolo;
 
-
-disp("le triangle")
+disp("triangolo")
 for i = 1:length(tempi_galerkin_triangolo)
     tic;
     u_gal = build_2D_solution_galerkin(V_collection, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
@@ -48,7 +46,7 @@ end
 tempi_galerkin_cerchio = zeros(10,1);
 tempi_collocazione_cerchio= tempi_galerkin_cerchio;
 
-disp("cerchioooooooo")
+disp("cerchio")
 
 t = linspace(0, 2*pi, 200); % Finer sampling gives a smoother edge
 % circonferenza come in 4.21
@@ -64,10 +62,7 @@ axis equal
 verts = p.Vertices;
 
 V_collection = {verts(:,1) + 1i*verts(:,2)}; % e ora lo passiamo al nostro solutore solito!!!
-
-
 h_ideale = pi/(5*k); %così evito di non beccare le oscillazioni che sono legate a k (remark 5.9) ;
-
 q_quadratura = ceil(3*k); % idem
 
 for i = 1:length(tempi_galerkin_cerchio)
@@ -101,3 +96,6 @@ for i = 1:length(tempi_galerkin_2tri)
 
     disp("Fatto i = " + string(i))
 end
+
+
+% salvato i tempi in TEMPI.mat e fatto media

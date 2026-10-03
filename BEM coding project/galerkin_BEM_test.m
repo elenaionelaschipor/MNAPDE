@@ -1,6 +1,6 @@
 clear
 close all
-
+%% TEST GALERKIN
 
 a = -1;
 b = 2;
@@ -8,11 +8,10 @@ n_points = 200;
 V_collection = {[0, 1, 1i]};
 
 k = 20;
-h_ideale = pi/(10*k); %così evito di non beccare le oscillazioni che sono legate a k (remark 5.9) ;
+h_ideale = pi/(10*k); % controllo oscillazioni che sono legate a k (remark 5.9) ;
 q_quadratura = ceil(3*k); % idem
 
 
-% Ns = find_ideal_mesh(V_collection, h_ideale);
 [Nodes, Midpoints, Hj, Dirs] = create_nodes(V_collection, h_ideale);
 
 d = [0.5,sqrt(3)/2];
@@ -28,7 +27,7 @@ onda_incidente = plane_wave;
 u = build_2D_solution_galerkin(V_collection, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
 
 x = linspace(a,b,n_points);
-[xx,yy] = meshgrid(x,x);                % Matrices of x and y coordinates where to evaluate and plot field
+[xx,yy] = meshgrid(x,x);            
 zz = xx + 1i * yy; 
 u_inc =  arrayfun(@(z) onda_incidente(z), zz) ;
 
@@ -41,120 +40,95 @@ fig.Theme = "light";
 subplot(3,3,1)
 imagesc(x,x,real(u_inc))
 title("R(u_{inc})")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')  
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(V, '-or')
-% plot(Nodes, '+r', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
 
 subplot(3,3,2)
 imagesc(x,x,imag(u_inc))
 title("I(u_{inc})")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')   
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
 
 subplot(3,3,3)
 imagesc(x,x,abs(u_inc))
 title("|u_{inc}|")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')  
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
 
 
 
 subplot(3,3,4)
 imagesc(x,x,real(u))
 title("R(u_{scat})")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')  
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
-% 
 
 subplot(3,3,5)
 imagesc(x,x,imag(u))
 title("I(u_{scat})")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')   
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
-
 
 
 subplot(3,3,6)
 imagesc(x,x,abs(u))
 title("|u_{scat}|")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')  
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
-
-
 subplot(3,3,7)
 imagesc(x,x,real(u_tot))
 title("R(u_{tot})")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal') 
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
-
-
 subplot(3,3,8)
 imagesc(x,x,imag(u_tot))
 title("I(u_{tot})")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')  
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
 
 
 
 subplot(3,3,9)
 imagesc(x,x,abs(u_tot))
 title("|u_{tot}|")
-set(gca, 'YDir', 'normal')   % mantiene l'orientamento matematico
+set(gca, 'YDir', 'normal')  
 colormap("parula")
 colorbar
 axis equal
 hold on
 plot_polygon(V_collection)
-% plot(Nodes, 'or', MarkerFaceColor='r')
-% plot(Midpoints, '+b', MarkerFaceColor='b')
 
 exportgraphics(fig, "galerkin_bem_triangolo.png", 'Resolution', 300);
 
