@@ -1,0 +1,65 @@
+clear
+close all
+
+
+a = -1;
+b = 2;
+n_points = 200;
+V_collection = {[0, 1, 1i]};
+
+k = 20;
+h_ideale = pi/(10*k); %così evito di non beccare le oscillazioni che sono legate a k (remark 5.9) ;
+q_quadratura = ceil(3*k); % idem
+
+
+% Ns = find_ideal_mesh(V_collection, h_ideale);
+[Nodes, Midpoints, Hj, Dirs] = create_nodes(V_collection, h_ideale);
+
+d = [0.5,sqrt(3)/2];
+
+
+plane_wave = @(z) cos(k*(real(z)*d(1)+imag(z)*d(2))) + 1i*sin(k*(real(z)*d(1)+imag(z)*d(2))); % exp(1i*k*(real(z)*d(1) + imag(z)*d(2)));
+x0 = 1.5+1.5i;
+sol_fondamentale_x0 = @(z) 0.25i*besselh(0,k*abs(z-x0));
+
+
+onda_incidente = plane_wave;
+
+
+tempi_galerkin_triangolo = zeros(10,1);
+tempi_collocazione_triangolo = tempi_galerkin_triangolo;
+
+
+disp("le triangle")
+for i = 1:length(tempi_galerkin)
+    tic;
+    u_gal = build_2D_solution_galerkin(V_collection, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
+    tempi_galerkin_triangolo(i) = toc;
+    
+    tic;
+    u_col = build_2D_solution(V_collection, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
+    tempi_galerkin_triangolo(i)=toc;
+    
+    disp("fatto i = " + string(i))
+
+end
+
+
+tempi_galerkin_cerchio = zeros(10,1);
+tempi_collocazione_cerchio= tempi_galerkin_cerchio;
+
+disp("cerchioooooooo")
+
+
+
+for i = 1:length(tempi_galerkin)
+    tic;
+    u_gal = build_2D_solution_galerkin(V_collection, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
+    tempi_galerkin_cerchio(i) = toc;
+
+    tic;
+    u_col = build_2D_solution(V_collection, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
+    tempi_galerkin_cerchio(i)=toc;
+
+end
+
