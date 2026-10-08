@@ -21,7 +21,7 @@ plane_wave = @(z) cos(k*(real(z)*d(1)+imag(z)*d(2))) + 1i*sin(k*(real(z)*d(1)+im
 x0 = 1+1i;
 
 sol_fondamentale_x0 = @(z) 0.25i*besselh(0,k*abs(z-x0));
-onda_incidente = sol_fondamentale_x0;
+onda_incidente = plane_wave;
 
 u =build_2D_solution(V, h_ideale,k, onda_incidente,a,b,n_points, q_quadratura);
 
@@ -138,6 +138,6 @@ exportgraphics(fig, "triangolo_solfond_k_20.png", 'Resolution', 300);
 
 % PER FARE ANIMAZIONI
 
-MyGiffer(xx,yy,u,V,"u_scatt_sol_fond.gif")
-MyGiffer(xx,yy,u_inc,V, "u_inc_sol_fond.gif")
-MyGiffer(xx,yy,u_tot, V,"u_tot_sol_fond.gif")
+MyGiffer(xx,yy,u,V,"u_scatt_plane_wave.gif")
+% MyGiffer(xx,yy,u_inc,V, "u_inc_sol_fond.gif")
+MyGiffer(xx,yy,u_tot, V,"u_tot_plane_wave.gif")
